@@ -26,14 +26,14 @@ namespace AI
             int desiredSize = ais.Count;
             ais.Sort(new AIComparator());
             List<BasicAI> basicAIs = new List<BasicAI>(ais.Count);
-            for (int i = 0; i < ais.Count; i++) basicAIs.Add(ais[i].ai.copy());
+            for (int i = 0; i < ais.Count; i++) basicAIs.Add((BasicAI)ais[i].ai.Copy());
             int amountKilled = (int)Math.Round(KillRate * ais.Count);
             basicAIs.RemoveRange(0, amountKilled);
             int currentSize = ais.Count;
             int currentIndex = 0;
             while (basicAIs.Count < desiredSize)
             {
-                BasicAI ai = basicAIs[currentIndex].copy();
+                BasicAI ai = (BasicAI)basicAIs[currentIndex].Copy();
                 ai.Mutate(MutationChance, MutationAmount);
                 basicAIs.Add(ai);
                 currentIndex++;
@@ -92,7 +92,7 @@ namespace AI
 
         public override int GetHashCode()
         {
-            return 31 * base.GetHashCode() + ai.GetHashCode();
+            return (ai).GetHashCode();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace AI
 {
-    public class BasicAI
+    public class BasicAI : IAI
     {
         protected Node[][] layers; // Node[layer number from left-1][node from top]
 
@@ -61,11 +61,15 @@ namespace AI
             }
         }
 
+        public int CalcOutputIndex(double[] inputs) => CalcOutputIndex(inputs, OutputMode.RELU);
+
         public int CalcOutputIndex(double[] inputs, OutputMode mode)
         {
             double[] result = CalcOutputs(inputs, mode);
             return DetermineHighestIndex(result);
         }
+
+        public double[] CalculateOutputs(double[] inputs) => CalcOutputs(inputs,OutputMode.RELU);
 
         // EFFECTS: calculates the output array
         public double[] CalcOutputs(double[] inputs, OutputMode mode)
@@ -166,7 +170,7 @@ namespace AI
         }
 
         // EFFECTS: returns exact copy of this AI
-        public BasicAI copy()
+        public IAI Copy()
         {
             BasicAI ai = new BasicAI(inputNumber, outputNumber, hiddenLayerNumber);
             ai.CopyNodes(layers);
